@@ -1,5 +1,9 @@
 import Link from "next/link";
 
+export const metadata = {
+  title: "Zabot App",
+};
+
 export default function HomePage() {
   return (
     <main className="flex flex-col items-center justify-center h-screen">

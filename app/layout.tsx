@@ -1,4 +1,11 @@
 import "./globals.css";
+import { Montserrat } from "next/font/google";
+
+const montserrat = Montserrat({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
 
 export const metadata = {
   title: "Zabot App",
@@ -12,7 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru">
-      <body className="bg-gray-50 text-gray-900">{children}</body>
+      <body className={`bg-gray-50 text-gray-900 ${montserrat.className}`}>
+        {children}
+      </body>
     </html>
   );
 }

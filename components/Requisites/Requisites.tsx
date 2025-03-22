@@ -79,7 +79,10 @@ const Requisites = () => {
       >
         <RequisiteForm
           initialData={editingRequisite}
-          onClose={() => setModal(false)}
+          onClose={() => {
+            setModal(false);
+            setEditingRequisite(null);
+          }}
         />
       </Modal>
     </>

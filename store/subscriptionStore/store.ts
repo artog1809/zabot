@@ -1,19 +1,19 @@
 import { create } from "zustand";
 
-type Subscription = {
+type Requisite = {
   id: string;
   name: string;
 };
 
 type SubscriptionState = {
-  subscriptions: Subscription[];
-  addSubscription: (sub: Subscription) => void;
+  requisites: Requisite[];
+  addRequisite: (sub: Requisite) => void;
 };
 
 export const useSubscriptionStore = create<SubscriptionState>((set) => ({
-  subscriptions: [],
-  addSubscription: (sub) =>
+  requisites: [],
+  addRequisite: (sub) =>
     set((state) => ({
-      subscriptions: [...state.subscriptions, sub],
+      requisites: [...state.requisites, sub],
     })),
 }));

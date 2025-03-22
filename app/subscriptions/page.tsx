@@ -1,11 +1,15 @@
 "use client";
 
-import Sidebar from "@/components/Sidebar";
-import Header from "@/components/Header";
-import { useSubscriptionStore } from "@/store/subscriptionStore/store";
+import Sidebar from "@/components/Sidebar/Sidebar";
+import Header from "@/components/Header/Header";
+import { useState } from "react";
+import Tabs from "@/components/Tabs/Tabs";
+import Requisites from "@/components/Requisites/Requisites";
+
+type Tab = "payment" | "requisites" | "history";
 
 export default function SubscriptionsPage() {
-  const subscriptions = useSubscriptionStore((state) => state.subscriptions);
+  const [activeTab, setActivetab] = useState<Tab>("requisites");
 
   return (
     <div className="flex h-screen">
@@ -14,22 +18,21 @@ export default function SubscriptionsPage() {
       <div className="flex-1 flex flex-col">
         <Header title="Подписки" />
 
-        <div className="flex-1 p-8 bg-white rounded-md shadow-md m-6">
-          {subscriptions.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-gray-500">
-              <img
-                src="/empty-state.svg"
-                alt="Пусто"
-                className="w-40 h-40 mb-4"
-              />
-              <p>У вас пока нет ни одного реквизита для оплаты</p>
-              <button className="mt-4 px-4 py-2 bg-violet-500 text-white rounded-md hover:bg-violet-600">
-                Добавить реквизиты
-              </button>
-            </div>
-          ) : (
-            <div>Твои реквизиты тут</div>
-          )}
+        <div className="flex-1 m-6 flex flex-col">
+          <Tabs activeTab={activeTab} setActiveTab={setActivetab} />
+          <div className="flex-1 p-8 bg-white rounded-md shadow-md">
+            {activeTab === "requisites" && <Requisites />}
+            {activeTab === "history" && (
+              <div className="flex flex-col items-center justify-center h-full text-gray-500">
+                <p>История пуста</p>
+              </div>
+            )}
+            {activeTab === "payment" && (
+              <div className="flex flex-col items-center justify-center h-full text-gray-500">
+                <p>Платежи отсутствуют</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

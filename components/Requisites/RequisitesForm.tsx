@@ -6,12 +6,24 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import InputField from "../Utils/Input/Input";
 import { FileText } from "lucide-react";
+import { useShallow } from "zustand/shallow";
 
-const RequisiteForm = ({ onClose }: { onClose: () => void }) => {
-  const addRequisite = useSubscriptionStore((state) => state.addRequisite);
+const RequisiteForm = ({
+  onClose,
+  initialData,
+}: {
+  onClose: () => void;
+  initialData: Requisite | null;
+}) => {
+  const { addRequisite, updateRequisite } = useSubscriptionStore(
+    useShallow((state) => ({
+      addRequisite: state.addRequisite,
+      updateRequisite: state.updateRequisite,
+    }))
+  );
 
   const { register, handleSubmit, watch } = useForm<Requisite>({
-    defaultValues: {
+    defaultValues: initialData || {
       orgType: "ООО",
     },
   });
@@ -19,12 +31,12 @@ const RequisiteForm = ({ onClose }: { onClose: () => void }) => {
   const orgType = watch("orgType");
 
   const onSubmit = (data: Requisite) => {
-    const newRequisite = {
-      ...data,
-      id: uuidv4(),
-    };
-
-    addRequisite(newRequisite);
+    if (initialData) {
+      updateRequisite({ ...data, id: initialData.id });
+    } else {
+      const newRequisite = { ...data, id: uuidv4() };
+      addRequisite(newRequisite);
+    }
     onClose();
   };
 

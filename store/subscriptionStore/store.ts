@@ -1,19 +1,31 @@
 import { create } from "zustand";
 
-type Requisite = {
+type OrgType = "ООО" | "ИП";
+
+export type Requisite = {
   id: string;
-  name: string;
+  orgType: OrgType;
+  organizationName: string;
+  legalAddress: string;
+  inn: string;
+  kpp?: string;
+  ogrn?: string;
+  ogrnip?: string;
+  settlementAccount: string;
+  bankName: string;
+  correspondentAccount: string;
+  bik: string;
 };
 
 type SubscriptionState = {
   requisites: Requisite[];
-  addRequisite: (sub: Requisite) => void;
+  addRequisite: (req: Requisite) => void;
 };
 
 export const useSubscriptionStore = create<SubscriptionState>((set) => ({
   requisites: [],
-  addRequisite: (sub) =>
+  addRequisite: (req) =>
     set((state) => ({
-      requisites: [...state.requisites, sub],
+      requisites: [...state.requisites, req],
     })),
 }));

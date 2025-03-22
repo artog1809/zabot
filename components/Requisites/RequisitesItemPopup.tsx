@@ -1,4 +1,6 @@
 import { Pencil, Trash } from "lucide-react";
+import { useState } from "react";
+import ConfirmModal from "../Utils/Modal/ConfirmModal";
 
 interface Props {
   onDelete: () => void;
@@ -11,10 +13,11 @@ const RequisitesItemPopup: React.FC<Props> = ({
   onClose,
   onEdit,
 }) => {
+  const [modal, setModal] = useState(false);
   return (
     <div className="absolute top-[100%] right-0 bg-white flex flex-col shadow-lg rounded-xl">
       <button
-        onClick={() => onDelete()}
+        onClick={() => setModal(true)}
         className="w-full text-red-500 py-3 px-4 flex gap-1 items-center hover:bg-gray-100"
       >
         <Trash size={20} />
@@ -30,6 +33,15 @@ const RequisitesItemPopup: React.FC<Props> = ({
         <Pencil size={20} />
         Редактировать
       </button>
+      <ConfirmModal
+        isOpen={modal}
+        onConfirm={onDelete}
+        onCancel={() => setModal(false)}
+        title="Вы уверены, что хотите удалить реквизиты?"
+        description="Вы действительно уверены, что хотите удалить реквизиты без возможности восстановить? "
+        confirmText="Да, удалить"
+        cancelText="Отменить"
+      />
     </div>
   );
 };

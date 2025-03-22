@@ -1,4 +1,6 @@
 import { X } from "lucide-react";
+import { useState } from "react";
+import ConfirmModal from "./ConfirmModal";
 
 interface Props {
   isOpen: boolean;
@@ -8,6 +10,8 @@ interface Props {
 }
 
 const Modal: React.FC<Props> = ({ isOpen, onClose, children, title }) => {
+  const [modal, setModal] = useState(false);
+
   if (!isOpen) return null;
 
   return (
@@ -23,7 +27,7 @@ const Modal: React.FC<Props> = ({ isOpen, onClose, children, title }) => {
             {title}
           </span>
           <button
-            onClick={onClose}
+            onClick={() => setModal(true)}
             className=" w-[48px] h-[48px] bg-gray-200 flex items-center justify-center rounded-lg text-gray-500"
           >
             <X />
@@ -31,6 +35,15 @@ const Modal: React.FC<Props> = ({ isOpen, onClose, children, title }) => {
         </div>
         {children}
       </div>
+      <ConfirmModal
+        isOpen={modal}
+        onConfirm={onClose}
+        onCancel={() => setModal(false)}
+        title="Изменения не будут сохранены"
+        description="Вы уверены что хотите закрыть?"
+        confirmText="Да, закрыть"
+        cancelText="Отменить"
+      />
     </div>
   );
 };

@@ -29,8 +29,11 @@ const RequisiteItem: React.FC<Props> = ({ requisite, onDelete, onEdit }) => {
         <span className="text-[20px] text-black">
           {requisite.organizationName}
         </span>
-        <button className=" w-[36px] h-[36px] bg-gray-200 flex items-center justify-center rounded-lg text-gray-500">
-          <EllipsisVertical onClick={() => setPopup(!popup)} size={20} />
+        <button
+          onClick={() => setPopup((prev) => !prev)}
+          className=" w-[36px] h-[36px] bg-gray-200 flex items-center justify-center rounded-lg text-gray-500"
+        >
+          <EllipsisVertical size={20} />
         </button>
         {popup && (
           <RequisitesItemPopup

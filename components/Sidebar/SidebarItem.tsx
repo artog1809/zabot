@@ -7,6 +7,7 @@ interface SidebarItemProps {
   icon: ReactNode;
   href?: string;
   children?: ReactNode;
+  collapsed: boolean;
 }
 
 export default function SidebarItem({
@@ -14,6 +15,7 @@ export default function SidebarItem({
   icon,
   href,
   children,
+  collapsed,
 }: SidebarItemProps) {
   const [open, setOpen] = useState(false);
 
@@ -21,10 +23,12 @@ export default function SidebarItem({
     return (
       <Link
         href={href}
-        className="flex items-center space-x-2 p-4 rounded hover:bg-violet-50 transition text-sm text-gray-700"
+        className={`flex items-center p-4 rounded hover:bg-violet-50 transition text-sm text-gray-700 ${
+          collapsed ? "justify-center" : "space-x-2"
+        }`}
       >
         {icon}
-        <span>{title}</span>
+        {!collapsed && <span>{title}</span>}
       </Link>
     );
   }
@@ -33,20 +37,24 @@ export default function SidebarItem({
     <div>
       <button
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center p-4 justify-between rounded hover:bg-violet-50 transition text-sm text-gray-700"
+        className={`flex w-full items-center p-4 rounded hover:bg-violet-50 transition text-sm text-gray-700 ${
+          collapsed ? "justify-center" : "justify-between"
+        }`}
       >
-        <span className="flex items-center space-x-2">
+        <span className={`flex items-center ${collapsed ? "" : "space-x-2"}`}>
           {icon}
-          <span>{title}</span>
+          {!collapsed && <span>{title}</span>}
         </span>
-        {open ? (
-          <ChevronUp className="w-4 h-4 text-gray-500" />
-        ) : (
-          <ChevronDown className="w-4 h-4 text-gray-500" />
-        )}
+
+        {!collapsed &&
+          (open ? (
+            <ChevronUp className="w-4 h-4 text-gray-500" />
+          ) : (
+            <ChevronDown className="w-4 h-4 text-gray-500" />
+          ))}
       </button>
 
-      {open && (
+      {!collapsed && open && (
         <div className="ml-8 mt-1 space-y-1 text-gray-500">{children}</div>
       )}
     </div>

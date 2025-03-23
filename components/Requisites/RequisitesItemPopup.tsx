@@ -1,5 +1,5 @@
 import { Pencil, Trash } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ConfirmModal from "../Utils/Modal/ConfirmModal";
 
 interface Props {
@@ -14,8 +14,29 @@ const RequisitesItemPopup: React.FC<Props> = ({
   onEdit,
 }) => {
   const [modal, setModal] = useState(false);
+  const popupRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const clickOutside = (event: MouseEvent) => {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", clickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", clickOutside);
+    };
+  }, [onClose]);
+
   return (
-    <div className="absolute top-[100%] right-0 bg-white flex flex-col shadow-lg rounded-xl">
+    <div
+      ref={popupRef}
+      className="absolute top-[100%] right-0 bg-white flex flex-col shadow-lg rounded-xl"
+    >
       <button
         onClick={() => setModal(true)}
         className="w-full text-red-500 py-3 px-4 flex gap-1 items-center hover:bg-gray-100"

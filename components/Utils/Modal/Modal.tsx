@@ -37,7 +37,10 @@ const Modal: React.FC<Props> = ({ isOpen, onClose, children, title }) => {
       </div>
       <ConfirmModal
         isOpen={modal}
-        onConfirm={onClose}
+        onConfirm={() => {
+          onClose();
+          setModal(false);
+        }}
         onCancel={() => setModal(false)}
         title="Изменения не будут сохранены"
         description="Вы уверены что хотите закрыть?"

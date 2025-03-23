@@ -75,7 +75,10 @@ const Requisites = () => {
       <Modal
         title="Добавление реквизитов"
         isOpen={modal}
-        onClose={() => setModal(false)}
+        onClose={() => {
+          setModal(false);
+          setEditingRequisite(null);
+        }}
       >
         <RequisiteForm
           initialData={editingRequisite}
